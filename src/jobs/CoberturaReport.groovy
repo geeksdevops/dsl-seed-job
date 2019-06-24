@@ -5,7 +5,7 @@ folder(basePath) {
     description 'This example shows Clock-CoberturaReport basic folder/job creation.'
 }
 
-job("$basePath/ReportCobertura") {
+pipelineJob("$basePath/ReportCobertura") {
     scm {
         github repo
     }
