@@ -6,7 +6,9 @@ folder(basePath) {
 }
 
 job("$basePath") {
+    publishers {
 	buildPipelineTrigger("$basePath/ReportJob")
+	}
     triggers {
         scm 'H/5 * * * *'
     }
