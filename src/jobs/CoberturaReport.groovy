@@ -1,14 +1,12 @@
-String basePath = 'CoberturaReport'
-String repo = 'geeksdevops/Clock-CoberturaReport'
-
-folder(basePath) {
-    description 'This example shows Clock-CoberturaReport basic folder/job creation.'
-}
-
-pipelineJob("$basePath") {
-    publishers {
-	buildPipelineTrigger("$basePath/ReportJob")
-	}
+pipelineJob('') {
+    definition {
+        cpsScm {
+            scm {
+                git('https://github.com/geeksdevops/Clock-CoberturaReport.git')
+                scriptPath('JenkinsFile')
+            }
+        }
+    }
     definition {
         cps {
             script(readFileFromWorkspace('Jenkinsfile'))
