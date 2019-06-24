@@ -17,7 +17,7 @@ job("$basePath/PublishHostname") {
     }
 }
 
-job("$basePath/") {
+job("$basePath/ParameterJob") {
     parameters {
         stringParam 'host'
     }
