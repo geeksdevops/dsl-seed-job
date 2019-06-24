@@ -66,3 +66,17 @@ Note that starting with Job DSL 1.60 the "Additional classpath" setting is not a
 Plugins that automatically apply the functionality laid out in this example repo.
 * [Gradle Job DSL Support Plugin](https://github.com/AOEpeople/gradle-jenkins-job-dsl-plugin) - Plugin for easy management of Jenkins Job DSL scripts with Gradle.
 * [Gradle Jenkins Job DSL Plugin](https://github.com/heremaps/gradle-jenkins-jobdsl-plugin) - Plugin to manage Jenkins Job DSL projects in a Gradle project.
+
+
+
+##  PLUGIN TO INSTALL 
+
+Installing Plugins/Upgrades
+Preparation to install to fix Example8 and Example9
+
+* Badge	 				: Success
+* Groovy Postbuild	 		: Success
+* GitHub Pull Request Builder	 	: Success
+* CVS	 				: Success
+
+
