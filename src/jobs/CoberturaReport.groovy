@@ -5,16 +5,10 @@ folder(basePath) {
     description 'This example shows Clock-CoberturaReport basic folder/job creation.'
 }
 
-job("$basePath") {
+pipelineJob("$basePath") {
     publishers {
 	buildPipelineTrigger("$basePath/ReportJob")
 	}
-    triggers {
-        scm 'H/5 * * * *'
-    }
-    steps {
-	shell 'echo "Publishing Report on board"'
-}
     definition {
         cps {
             script(readFileFromWorkspace('Jenkinsfile'))
