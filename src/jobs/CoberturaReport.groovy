@@ -5,7 +5,8 @@ folder(basePath) {
     description 'This example shows Clock-CoberturaReport basic folder/job creation.'
 }
 
-pipelineJob("$basePath/ReportCobertura") {
+job("$basePath") {
+	buildPipelineTrigger("$basePath/ReportJob"
     scm {
         github repo
     }
