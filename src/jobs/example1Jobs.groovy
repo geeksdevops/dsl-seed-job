@@ -5,7 +5,7 @@ folder(basePath) {
     description 'This example shows basic folder/job creation.'
 }
 
-job("$basePath/gradle-example-build") {
+job("$basePath/PublishHostname") {
     scm {
         github repo
     }
@@ -13,15 +13,15 @@ job("$basePath/gradle-example-build") {
         scm 'H/5 * * * *'
     }
     steps {
-        gradle 'assemble'
+        shell 'hostnamectl status'
     }
 }
 
-job("$basePath/gradle-example-deploy") {
+job("$basePath/") {
     parameters {
         stringParam 'host'
     }
     steps {
-        shell 'scp war file; restart...'
+        shell 'echo \$host; echo "BUILD SUCCESS"'
     }
 }
