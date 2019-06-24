@@ -6,10 +6,7 @@ folder(basePath) {
 }
 
 job("$basePath") {
-	buildPipelineTrigger("$basePath/ReportJob"
-    scm {
-        github repo
-    }
+	buildPipelineTrigger("$basePath/ReportJob")
     triggers {
         scm 'H/5 * * * *'
     }
