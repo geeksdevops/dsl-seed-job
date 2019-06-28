@@ -16,17 +16,6 @@ An example [Job DSL](https://github.com/jenkinsci/job-dsl-plugin) project that u
     │       └── groovy          # specs
     └── build.gradle            # build file
 
-# Script Examples
-
-* [Example 1](src/jobs/example1Jobs.groovy) - shows basic folder/job creation
-* [Example 2](src/jobs/example2Jobs.groovy) - shows how to create a set of jobs for each github branch, each in its own folder
-* [Example 3](src/jobs/example3Jobs.groovy) - shows how to use the configure block
-* [Example 4](src/jobs/example4Jobs.groovy) - shows a way to reuse job definitions for jobs that differ only with a few properties
-* [Example 5](src/jobs/example5Jobs.groovy) - shows how to pull out common components into static methods
-* [Example 6](src/jobs/example6Jobs.groovy) - shows how to include script resources from the workspace
-* [Example 7](src/jobs/example7Jobs.groovy) - shows how to create jobs using builders
-* [Example 8](src/jobs/example8Jobs.groovy) - shows how to use DSL extensions provided by other plugins
-
 ## Testing
 
 `./gradlew test` runs the specs.
