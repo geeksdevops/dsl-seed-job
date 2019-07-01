@@ -8,7 +8,7 @@ pipelineJob('NumberGenerator-Pipeline') {
     }
     definition {
         cps {
-            script(readFileFromWorkspace('Jenkinsfile'))
+            script(readFileFromWorkspace('Num-Jenkinsfile'))
             sandbox()
         }
     }
