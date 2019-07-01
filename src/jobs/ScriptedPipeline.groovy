@@ -3,7 +3,6 @@ pipelineJob('NumberGenerator-Pipeline') {
         cpsScm {
             scm {
                 git('https://github.com/geeksdevops/Tutorial-Pipe.git')
-                scriptPath('JenkinsFile')
             }
         }
     }
