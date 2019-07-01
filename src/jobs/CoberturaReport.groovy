@@ -1,4 +1,4 @@
-pipelineJob('Clock-CoberturaReport') {
+pipelineJob('Sample-Deployment-Pipeline') {
     definition {
         cpsScm {
             scm {
