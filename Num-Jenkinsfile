@@ -8,7 +8,7 @@ node {
 	MAVEN_HOME		= '/app/MAVEN/'
         MAVEN_GOAL		= 'clean install'
 	SONAR_PROPERTY		= 'sonar-project.properties'
-        RECIPIENT               = 'pramod.s.02@gmail.com'
-        EMAIL_TEMPLATE          = 'email_template'
+        //RECIPIENT               = 'pramod.s.02@gmail.com'
+        //EMAIL_TEMPLATE          = 'email_template'
     }
 }
