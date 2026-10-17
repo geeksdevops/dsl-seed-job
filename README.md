@@ -1,5 +1,8 @@
 # Jenkins Job DSL Gradle Example 
 
+[![License](https://img.shields.io/github/license/geeksdevops/dsl-seed-job)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/geeksdevops/dsl-seed-job?style=social)](https://github.com/geeksdevops/dsl-seed-job/stargazers)
+
 An example [Job DSL](https://github.com/jenkinsci/job-dsl-plugin) project that uses Gradle for building and testing. Check out [this presentation](https://www.youtube.com/watch?v=SSK_JaBacE0) for a walkthrough of this example (starts around 14:00). 
 
 ## File structure
@@ -20,30 +23,68 @@ An example [Job DSL](https://github.com/jenkinsci/job-dsl-plugin) project that u
 
 `./gradlew test` runs the specs.
 
-[JobScriptsSpec](src/test/groovy/com/dslexample/JobScriptsSpec.groovy) 
-will loop through all DSL files and make sure they don't throw any exceptions when processed. All XML output files are written to `build/debug-xml`. 
-This can be useful if you want to inspect the generated XML before check-in. Plugins providing auto-generated DSL must be added to the build dependencies.
+Unit specs live under `src/test/groovy`; for example, [StepsUtilSpec](src/test/groovy/com/dslexample/util/StepsUtilSpec.groovy)
+checks that the proxy-aware Gradle step uses the wrapper, forwards the requested tasks, and sets the proxy switches.
+Plugins providing auto-generated DSL must be added to the build dependencies when adding specs that exercise those DSLs.
 
-If you prefer to stub the auto-generated DSL, you can use [JobScriptsSpecAlternative](src/test/groovy/com/dslexample/JobScriptsSpecAlternative.groovy),
-though you may miss some syntax errors.
+## Add this project to Jenkins
 
-## Seed Job
+This repository contains Job DSL scripts. Jenkins runs them from a **seed job** to create or update
+the jobs described by those scripts. The seed job is separate from the jobs it generates.
 
-You can create the example seed job via the Rest API Runner (see below) using the pattern `jobs/seed.groovy`.
+### 1. Install Jenkins plugins
 
-Or manually create a job with the same structure:
+Install these plugins from **Manage Jenkins > Plugins**:
 
-* Invoke Gradle script
-   * Use Gradle Wrapper: `true`
-   * Tasks: `clean test`
-* Process Job DSLs
-   * DSL Scripts: `src/jobs/**/*Jobs.groovy`
-   * Additional classpath: `src/main/groovy`
-* Publish JUnit test result report
-   * Test report XMLs: `build/test-results/**/*.xml`
+* **Job DSL** — provides the Process Job DSL build step.
+* **Git** — checks out this repository for the seed job.
+* **Folders** — required by scripts that create Jenkins folders.
+* **GitHub** — required by scripts that use the `github` SCM DSL.
+* **Gradle** — required for generated jobs that use the Gradle build step.
 
-Note that starting with Job DSL 1.60 the "Additional classpath" setting is not available when
-[Job DSL script security](https://github.com/jenkinsci/job-dsl-plugin/wiki/Script-Security) is enabled.
+Restart Jenkins if the plugin manager requests it. Give the Jenkins user that will run the seed job
+permission to create and configure jobs and folders.
+
+### 2. Create the seed job
+
+1. In Jenkins, select **New Item**, enter a name such as `dsl-seed-job`, choose **Freestyle project**,
+   and select **OK**.
+2. Under **Source Code Management**, choose **Git** and enter this repository's clone URL. Add
+   credentials if the repository is private, then choose the branch Jenkins should use.
+3. Under **Build Steps**, add **Invoke Gradle script**:
+   * Enable **Use Gradle Wrapper**.
+   * Set **Tasks** to `clean test`.
+4. Add another build step, **Process Job DSLs**:
+   * Set **DSL Scripts** to `src/jobs/**/*Jobs.groovy`.
+   * Set **Additional classpath** to `src/main/groovy` if the scripts use project support classes.
+5. Optionally add **Publish JUnit test result report** with the pattern
+   `build/test-results/**/*.xml`.
+6. Save the job and select **Build Now**.
+
+The Gradle step runs this repository's tests before processing the DSL. If the checkout is shallow
+or branch-specific, ensure the configured branch contains the scripts you want Jenkins to process.
+
+### 3. Check generated jobs
+
+After a successful seed build, open the Jenkins dashboard and look for the generated folders and
+jobs. For example, [example2Jobs.groovy](src/jobs/example2Jobs.groovy) creates an `example2` folder
+with build and deploy jobs for each branch it retrieves from the configured GitHub repository.
+
+That example currently targets `sheehan/gradle-example`, fetches its branches from the public GitHub
+API, and uses placeholder deploy commands. Change the repository and deploy steps in the DSL before
+using it for your own application. The Jenkins controller or agent running the seed job must be
+able to reach `api.github.com`; unauthenticated API requests are subject to GitHub rate limits.
+
+### Notes
+
+* Use **Manage Jenkins > In-process Script Approval** to review and approve signatures when
+  prompted. Starting with Job DSL 1.60, the **Additional classpath** setting is unavailable when
+  [Job DSL script security](https://github.com/jenkinsci/job-dsl-plugin/wiki/Script-Security) is
+  enabled; use the supported script-security workflow for your Jenkins version.
+* Verify `./gradlew test` locally before configuring Jenkins, using a Java runtime supported by the
+  Gradle version configured in the wrapper.
+* The repository's current [Jenkinsfile](Jenkinsfile) is a separate Maven/Sonar pipeline example;
+  it is not the Gradle seed-job configuration described above.
 
 ## Other Resources
 
@@ -58,6 +99,10 @@ Plugins that automatically apply the functionality laid out in this example repo
 
 
 
+## License
+
+This project is licensed under the [Apache License 2.0](LICENSE).
+
 ##  PLUGIN TO INSTALL 
 
 Installing Plugins/Upgrades
@@ -67,5 +112,3 @@ Preparation to install to fix Example8 and Example9
 * Groovy Postbuild	 		: Success
 * GitHub Pull Request Builder	 	: Success
 * CVS	 				: Success
-
-
