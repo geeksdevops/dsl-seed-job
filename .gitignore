@@ -1,0 +1,4 @@
+.gradle/
+/build/
+/.vscode/settings.json
+/gradle/wrapper/oracleJdk-*.jdk/
